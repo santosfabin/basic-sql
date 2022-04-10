@@ -86,22 +86,22 @@
     
     WHERE trabalha com operadores de comparação
     
-    > ⠀=		igual
+    > *⠀*=		igual
     > 
     > 
-    > ⠀<		menor
+    > *⠀*<		menor
     > 
-    > ⠀>		maior
+    > *⠀*>		maior
     > 
-    > ⠀=		maior ou igual
+    > *⠀*=		maior ou igual
     > 
-    > ⠀<=		menor ou igual
+    > *⠀*<=		menor ou igual
     > 
-    > ⠀<>		diferente de
+    > *⠀*<>		diferente de
     > 
-    > ⠀AND		operador logico E
+    > *⠀*AND		operador logico E
     > 
-    > ⠀OR		operador logico OU
+    > *⠀*OR		operador logico OU
     > 
     
     ---
@@ -487,7 +487,7 @@
         SELECT TOP 10 Productid, COUNT(productid) AS "quantidade"
         FROM Sales.SalesOrderDetail
         GROUP BY ProductID
-        RDER BY quantidade desc
+        ORDER BY quantidade desc
         ```
         
         ```sql
@@ -850,6 +850,22 @@
             WHERE pc.BusinessEntityID IS NULL     -- F
             ```
             
+            - — F
+            
+            ```sql
+            SELECT pp.FirstName, pp.MiddleName, pp.LastName, pe.EmailAddress
+            FROM Person.Person pp
+            LEFT JOIN Person.EmailAddress pe
+            ON pp.BusinessEntityID = pe.BusinessEntityID
+            ```
+            
+            ```sql
+            SELECT pe.EmailAddress, pw.PasswordHash, pw.PasswordSalt
+            FROM Person.EmailAddress pe
+            LEFT JOIN Person.Password pw
+            ON pw.BusinessEntityID = pe.BusinessEntityID
+            ```
+            
     
     ---
     
@@ -895,19 +911,302 @@
 
 ---
 
-- 
+- UNION
+    - Esse operador junta dois ou mais resultados de uma operação de SELECT
+    - Ele REMORE as DUPLICATAS
+        - Com exceção da operação UNION ALL
+            - ele vai deixar as duplicatas
+    - Ele não junta por algum tipo de ordem, é pela forma de otimização própria dele
+    
+    ---
+    
+    Exemplos:
+    
+    ```sql
+    SELECT Productid, Name, ProductNumber
+    FROM Production.Product
+    WHERE name like'%Chain%'
+    UNION
+    SELECT  Productid, Name, ProductNumber
+    FROM Production.Product
+    WHERE name like '%Decal%'
+    ORDER BY name
+    ```
+    
+    ```sql
+    SELECT firstname, title, MiddleName
+    FROM Person.Person
+    WHERE Title = 'mr.'
+    UNION
+    SELECT firstname, title, MiddleName
+    FROM Person.Person
+    WHERE MiddleName = 'a'
+    ```
+    
+    ```sql
+    SELECT pp.FirstName,  pp.Title
+    FROM Person.Person pp
+    UNION
+    SELECT pp.FirstName, pp.Title
+    FROM Person.Person pp
+    ```
+    
+
+---
+
+- DATEPART
+    - Introdução (não obrigatório)
+        
+        > (não obrigatorio) — início
+        > 
+        > - É uma expressão que retorna um tipo INT
+        > - Uma expressão que é resolvida para um dos seguintes tipos de dados:
+        >     - date
+        >     - datetime
+        >     - datetimeoffset
+        >     - datetime2
+        >     - smalldatetime
+        >     - time
+        > 
+        > ---
+        > 
+        > - Sintaxe
+        >     
+        >     ```sql
+        >     DATEPART ( datepart , date )
+        >     ```
+        >     
+        > 
+        > ---
+        > 
+        > - Argumentos
+        >     
+        >     
+        >     | datepart | Abreviações |
+        >     | --- | --- |
+        >     | year | yy, yyyy |
+        >     | quarter | qq, q |
+        >     | month | mm, m |
+        >     | dayofyear | dy, y |
+        >     | day | dd, d |
+        >     | week | wk, ww |
+        >     | weekday | dw |
+        >     | hour | hh |
+        >     | minute | mi, n |
+        >     | second | ss, s |
+        >     | millisecond | ms |
+        >     | microsecond | mcs |
+        >     | nanosecond | ns |
+        >     | tzoffset | tz |
+        >     | iso_week | isowk, isoww |
+        > 
+        > ---
+        > 
+        > - Valor retornado
+        >     
+        >     
+        >     | datepart | Valor retornado |
+        >     | --- | --- |
+        >     | year, yyyy, yy | 2007 |
+        >     | quarter, qq, q | 4 |
+        >     | month, mm, m | 10 |
+        >     | dayofyear, dy, y | 303 |
+        >     | day, dd, d | 30 |
+        >     | week, wk, ww | 44 |
+        >     | weekday, dw | 3 |
+        >     | hour, hh | 12 |
+        >     | minute, n | 15 |
+        >     | second, ss, s | 32 |
+        >     | millisecond, ms | 123 |
+        >     | microsecond, mcs | 123456 |
+        >     | nanosecond, ns | 123456700 |
+        >     | tzoffset, tz | 310 |
+        >     | iso_week, isowk, isoww | 44 |
+        > 
+        > ---
+        > 
+        > - Argumentos week e weekday de datepart
+        >     
+        >     
+        >     | SET DATEFIRST argumento | week retornado | weekday retornado |
+        >     | --- | --- | --- |
+        >     | 1 | 16 | 6 |
+        >     | 2 | 17 | 5 |
+        >     | 3 | 17 | 4 |
+        >     | 4 | 17 | 3 |
+        >     | 5 | 17 | 2 |
+        >     | 6 | 17 | 1 |
+        >     | 7 | 16 | 7 |
+        > 
+        > ---
+        > 
+        > - Argumentos year, month e day de datepart
+        >     - Os valores retornados para DATEPART (**year**, *date*), DATEPART (**month**, *date*) e DATEPART (**day**, *date*) são iguais aos retornados pelas funções [YEAR](https://docs.microsoft.com/pt-br/sql/t-sql/functions/year-transact-sql?view=sql-server-ver15), [MONTH](https://docs.microsoft.com/pt-br/sql/t-sql/functions/month-transact-sql?view=sql-server-ver15) e [DAY](https://docs.microsoft.com/pt-br/sql/t-sql/functions/day-transact-sql?view=sql-server-ver15), respectivamente.
+        >     
+        >     ---
+        >     
+        >     - iso_week datepart
+        >         
+        >         
+        >         | Primeiro dia da semana | Primeira semana do ano contém | Semanas atribuídas duas vezes | Usado por/em |
+        >         | --- | --- | --- | --- |
+        >         | Sunday | 1º de janeiro,
+        >         Primeiro sábado,
+        >         1 a 7 dias do ano | Sim | Estados Unidos |
+        >         | Monday | 1º de janeiro,
+        >         Primeiro domingo,
+        >         1 a 7 dias do ano | Sim | A maior parte da Europa e do Reino Unido |
+        >         | Monday | 4 de janeiro,
+        >         Primeira quinta-feira,
+        >         4 a 7 dias do ano | Não | ISO 8601, Noruega e Suécia |
+        >         | Monday | 7 de janeiro,
+        >         Primeira segunda-feira,
+        >         7 dias do ano | Não |  |
+        >         | Quarta-feira | 1º de janeiro,
+        >         Primeira terça-feira,
+        >         1 a 7 dias do ano | Sim |  |
+        >         | Sábado | 1º de janeiro,
+        >         Primeira sexta-feira,
+        >         1 a 7 dias do ano | Sim |  |
+        >         | 7 | 16 | 7 |  |
+        >     
+        >     ---
+        >     
+        >     - tzoffset
+        >         - `DATEPART` retorna o valor **tzoffset** (**tz**) como o número de minutos (com sinal). Esta instrução retorna uma diferença de fuso horário de 310 minutos:
+        >         
+        >         ```sql
+        >         SELECT DATEPART (tzoffset, '2007-05-10 00:00:01.1234567 +05:10');
+        >         ```
+        >         
+        >         - `DATEPART` renderiza o valor de tzoffset da seguinte maneira:
+        >             - Para datetimeoffset e datetime2 e, tzoffset retorna a diferença de
+        >             tempo em minutos, em que a diferença para datetime2 é sempre de 0
+        >             minuto.
+        >             - Para tipos de dados que podem ser convertidos implicitamente em **datetimeoffset** ou **datetime2**, `DATEPART` retorna a diferença de tempo em minutos. Exceção: outros tipos de dados de data/hora.
+        >             - Parâmetros de todos os outros tipos resultam em erro.
+        > 
+        > ---
+        > 
+        > - **Argumento smalldatetime de date**
+        >     - Se o tipo de dados do argumento *date* não tiver a *datepart* especificada, `DATEPART` retornará o padrão para essa *datepart* apenas quando um literal for especificado para *date*.
+        >     - Por exemplo, o ano-mês-dia padrão para qualquer tipo de dados de **date** é 1900-01-01. Esta instrução tem argumentos de parte de data para *datepart*, um argumento de hora para *date* e ela retorna `1900, 1, 1, 1, 2`.
+        >         
+        >         ```sql
+        >         SELECT DATEPART(year, '12:10:30.123')  
+        >             ,DATEPART(month, '12:10:30.123')  
+        >             ,DATEPART(day, '12:10:30.123')  
+        >             ,DATEPART(dayofyear, '12:10:30.123')  
+        >             ,DATEPART(weekday, '12:10:30.123');
+        >         ```
+        >         
+        >     - Se *date* é especificada como uma variável ou coluna de tabela e o tipo de dados dessa variável ou coluna não tem a *datepart* especificada, `DATEPART` retorna o erro 9810. Neste exemplo, a variável *@t* tem um tipo de dados **time**. O exemplo falha porque o ano da parte de data é inválido para o tipo de dados **time**:
+        >         
+        >         ```sql
+        >         DECLARE @t time = '12:10:30.123';
+        >         SELECT DATEPART(year, @t);
+        >         ```
+        >         
+        > - Frações de segundo
+        >     - Estas instruções mostram que `DATEPART` retorna frações de segundos:
+        >         
+        >         ```sql
+        >         SELECT DATEPART(millisecond, '00:00:01.1234567'); -- Returns 123  
+        >         SELECT DATEPART(microsecond, '00:00:01.1234567'); -- Returns 123456  
+        >         SELECT DATEPART(nanosecond,  '00:00:01.1234567'); -- Returns 123456700
+        >         ```
+        >         
+        > 
+        > (não obrigatorio) —fim
+        > 
+    - Conteúdo
+        
+        > Dia
+        > 
+        > 
+        > ```sql
+        > SELECT SalesOrderID, DATEPART(day, orderdate) Mes
+        > FROM Sales.SalesOrderHeader
+        > ```
+        > 
+        
+        > Mês
+        > 
+        > 
+        > ```sql
+        > SELECT SalesOrderID, DATEPART(month, orderdate) Mes
+        > FROM Sales.SalesOrderHeader
+        > ```
+        > 
+        
+        > Ano
+        > 
+        > 
+        > ```sql
+        > SELECT SalesOrderID, DATEPART(year, orderdate) Mes
+        > FROM Sales.SalesOrderHeader
+        > ```
+        > 
+        
+        ---
+        
+        - Exemplos completos:
+            
+            ```sql
+            SELECT AVG(totaldue) Media, DATEPART(DAY, orderdate) Dia
+            FROM Sales.SalesOrderHeader
+            GROUP BY DATEPART(DAY, orderdate)
+            ORDER BY dia
+            ```
+            
+            ```sql
+            SELECT AVG(totaldue) Media, DATEPART(MONTH, orderdate) Mes
+            FROM Sales.SalesOrderHeader
+            GROUP BY DATEPART(MONTH, orderdate)
+            ORDER BY mes
+            ```
+            
+            ```sql
+            SELECT AVG(totaldue) Media, DATEPART(YEAR, orderdate) Ano
+            FROM Sales.SalesOrderHeader
+            GROUP BY DATEPART(YEAR, orderdate)
+            ORDER BY ano
+            ```
+            
+            ```sql
+            SELECT DATEPART(YEAR, orderdate) Ano, DATEPART(MONTH, orderdate) Mes, DATEPART(DAY, orderdate) Dia
+            FROM Sales.SalesOrderHeader
+            GROUP BY DATEPART(YEAR, orderdate), DATEPART(MONTH, orderdate), DATEPART(DAY, orderdate)
+            ORDER BY dia, mes, ano
+            ```
+            
+
+---
+
+- Manipulação de String
+    - Introdução:
+        
+        [https://docs.microsoft.com/pt-br/sql/t-sql/functions/string-functions-transact-sql?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/functions/string-functions-transact-sql?view=sql-server-ver15)
+        
+    
+
+---
+
 - X
+    
+    <aside>
+    💡 F == important
+    
+    </aside>
+    
+    ```sql
+    SELECT 19972 - 19118
+    ```
     
     ```sql
     SELECT COUNT(*)
     FROM Production.Product
     WHERE ListPrice > 1500
-    ```
-    
-    ```sql
-    SELECT COUNT(*)
-    FROM Person.Person
-    WHERE lastname LIKE 'p%'
     ```
     
     ```sql
@@ -932,11 +1231,12 @@
     WHERE name LIKE '%road%'
     ```
     
-    ```sql
-    SELECT 19972 - 19118
-    ```
-    
-    <aside>
-    💡 F == important
-    
-    </aside>
+
+---
+
+- REFERÊNCIAS — F
+    - Todos os créditos para:
+        1. [https://www.youtube.com/watch?v=rX2I7OjLqWE](https://www.youtube.com/watch?v=rX2I7OjLqWE)
+            1. [https://drive.google.com/file/d/1LCofjYj-pV1asBLrxtgPDsbqMFRefHW5/view](https://drive.google.com/file/d/1LCofjYj-pV1asBLrxtgPDsbqMFRefHW5/view)
+            2. [https://raw.githubusercontent.com/Microsoft/sql-server-samples/master/samples/databases/northwind-pubs/instnwnd.sql](https://raw.githubusercontent.com/Microsoft/sql-server-samples/master/samples/databases/northwind-pubs/instnwnd.sql)
+        2. [https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15)

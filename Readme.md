@@ -104,6 +104,8 @@
     > OR		operador logico OU
     > 
     
+    ---
+    
     EXEMPLOS:
     
     ```sql
@@ -163,32 +165,24 @@
 
 - COUNT
     
-    COUNT trabalha com quantidade de linha
+    Trabalha com quantidade de linha
     
     EXEMPLOS:
-    
-    - 1
     
     ```sql
     SELECT COUNT(*)
     FROM tabela
     ```
     
-    - 2
-    
     ```sql
     SELECT COUNT(DISTINCT coluna1)
     FROM tabela
     ```
     
-    - 3
-    
     ```sql
     SELECT COUNT(title)
     FROM Person.Person
     ```
-    
-    - 4
     
     ```sql
     SELECT COUNT(DISTINCT title)
@@ -229,14 +223,10 @@
     
     EXEMPLOS:
     
-    - 1
-    
     ```sql
     SELECT TOP 10 *
     FROM tabela
     ```
-    
-    - 2
     
     ```sql
     SELECT TOP 10 *
@@ -249,11 +239,9 @@
 
 - ORDER BY
     
-    ORDER BY	vai ordenar por ordem crescente ou decrescente
+    Vai ordenar por ordem crescente ou decrescente
     
     EXEMPLOS:
-    
-    - 1
     
     ```sql
     SELECT coluna1, coluna2
@@ -261,15 +249,11 @@
     ORDER BY coluna1 asc
     ```
     
-    - 2
-    
     ```sql
     SELECT coluna1, coluna2
     FROM tabela
     ORDER BY coluna1 desc
     ```
-    
-    - 3
     
     ```sql
     SELECT *
@@ -277,15 +261,13 @@
     ORDER BY FirstName asc
     ```
     
-    - 4
-    
     ```sql
     SELECT *
     FROM Person.Person
     ORDER BY FirstName desc
     ```
     
-    - 5 F
+    F
     
     ```sql
     SELECT *
@@ -297,23 +279,17 @@
     
     EXERCICIOS:
     
-    - 1
-    
     ```sql
     SELECT TOP 10 Productid
     FROM Production.Product
     ORDER BY listprice desc
     ```
     
-    - 2
-    
     ```sql
     SELECT name, ProductNumber
     FROM Production.Product
     WHERE ProductID >= 1 and ProductID <= 4
     ```
-    
-    - 3
     
     ```sql
     
@@ -327,58 +303,61 @@
 
 - BETWEEN
     
-    BETWEEN é usado para encontrar valor entre um valor mínimo e máximo
+    É usado para encontrar valor entre um valor mínimo e máximo
     
     EXEMPLOS:
     
     1. valor BETWEEN mínimo AND máximo
-    
-    ```sql
-    SELECT *
-    FROM Production.Product
-    WHERE ListPrice BETWEEN 1000 AND 1500
-    ```
-    
-    ```sql
-    SELECT *
-    FROM Production.Product
-    WHERE ListPrice NOT BETWEEN 1000 AND 1500
-    ```
-    
-    ```sql
-    SELECT *
-    FROM HumanResources.Employee
-    WHERE HireDate BETWEEN '2009/01/01' and '2010/01/01'
-    ```
-    
+        
+        ```sql
+        SELECT *
+        FROM Production.Product
+        WHERE ListPrice BETWEEN 1000 AND 1500
+        ```
+        
+        ```sql
+        SELECT *
+        FROM Production.Product
+        WHERE ListPrice NOT BETWEEN 1000 AND 1500
+        ```
+        
+        ```sql
+        SELECT *
+        FROM HumanResources.Employee
+        WHERE HireDate BETWEEN '2009/01/01' and '2010/01/01'
+        ```
+        
 
 ---
 
 - IN
     
-    IN	é usado junto com o WHERE;
+    É usado junto com o WHERE
     
     - verifica se um valor corresponde com qualquer valor passado na lista de valores
     - ele é como o between, porem so nos valores escritos, o between é todos os valores dentro dos escolhidos
     - ele tbm é mais rápido
+    
+    ---
     
     EXEMPLOS:
     
     - valor IN(valor1,valor2)
     color IN('blue','black')
     valor IN (SELECT valor FROM NomeDaTabela)
-    
-    ```sql
-    SELECT *
-    FROM Person.Person
-    WHERE BusinessEntityID IN(2,7,13)
-    ```
-    
-    ```sql
-    SELECT *
-    FROM Person.Person
-    WHERE BusinessEntityID NOT IN(2,7,13)
-    ```
+        
+        ```sql
+        SELECT *
+        FROM Person.Person
+        WHERE BusinessEntityID IN(2,7,13)
+        ```
+        
+        ```sql
+        SELECT *
+        FROM Person.Person
+        WHERE BusinessEntityID NOT IN(2,7,13)
+        ```
+        
     
 
 ---
@@ -387,8 +366,9 @@
     
     LIKE	usado para encontrar dados q vc sabe alguma coisa do nome
     
-    %      ==     nn importa oq vem depois, e é pra VARIAS letras
-    _     ==     é apenas para UMA letra qualquer
+    | % | == |  não importa oq vem depois, e é pra VARIAS letras |
+    | --- | --- | --- |
+    | _  | == | é apenas para UMA letra qualquer |
     
     EXEMPLOS:
     
@@ -439,28 +419,29 @@
 
 - MIN/MAX/SUM/AVG
     
-    MIN MAX SUM AVG
-    sao funcoes de agregacao, basicamente agregam ou combinam dados de uma tabela em 1 resultado so
+    São funções de agregação, basicamente agregam ou combinam dados de uma tabela em 1 resultado so
     
-    > AS "nome"
-    renomeia a tabela final para nome
-    > 
+    | AS |
+    | --- |
+    | renomeia a tabela final para nome |
     
-    > SUM
-    soma de tudo naquela coluna
-    > 
+    | SUM |
+    | --- |
+    | soma de tudo naquela coluna |
     
-    > MIN
-    o valor MINIMO naquela coluna
-    > 
+    | MIN |
+    | --- |
+    | o valor MINIMO naquela coluna |
     
-    > MAX
-    o valor MAXIMO naquela coluna
-    > 
+    | MAX |
+    | --- |
+    | o valor MAXIMO naquela coluna |
     
-    > AVG
-    a MEDIA dos valores naquela coluna
-    > 
+    | AVG |
+    | --- |
+    | a MEDIA dos valores naquela coluna |
+    
+    ---
     
     EXEMPLOS:
     
@@ -489,10 +470,7 @@
 
 - GROUP BY
     
-    vai dividir o resultado da pesquisa em grupos
-    para cada grupo vc pode aplicar uma funcao de agregadao, por exemplo
-    calcular a soma dos itens
-    contar o numero de itens daquele grupo
+    vai dividir o resultado da pesquisa em grupos, para cada grupo vc pode aplicar uma função de agregação, por exemplo: calcular a soma dos itens; contar o numero de itens daquele grupo
     
     EXEMPLOS:
     
@@ -502,29 +480,30 @@
     GROUP BY coluna1
     ```
     
-    ele agrupa todos os iguais
-    ele somou todos os iguais e deixou na linha a frente
-    
-    ```sql
-    SELECT TOP 10 Productid, COUNT(productid) AS "quantidade"
-    FROM Sales.SalesOrderDetail
-    GROUP BY ProductID
-    RDER BY quantidade desc
-    ```
-    
-    ```sql
-    SELECT firstname, COUNT(FirstName) AS "QUANTIDADE"
-    FROM Person.Person
-    WHERE FirstName LIKE 'f%'
-    GROUP BY FirstName
-    ORDER BY FirstName
-    ```
-    
-    ```sql
-    SELECT color,AVG(listprice)
-    FROM Production.Product
-    GROUP BY color
-    ```
+    - Ele agrupa todos os iguais
+    - Ele soma todos os iguais e deixa na linha a frente
+        
+        ```sql
+        SELECT TOP 10 Productid, COUNT(productid) AS "quantidade"
+        FROM Sales.SalesOrderDetail
+        GROUP BY ProductID
+        RDER BY quantidade desc
+        ```
+        
+        ```sql
+        SELECT firstname, COUNT(FirstName) AS "QUANTIDADE"
+        FROM Person.Person
+        WHERE FirstName LIKE 'f%'
+        GROUP BY FirstName
+        ORDER BY FirstName
+        ```
+        
+        ```sql
+        SELECT color,AVG(listprice)
+        FROM Production.Product
+        GROUP BY color
+        ```
+        
     
     ---
     
@@ -560,20 +539,18 @@
 
 - HAVING
     
-    HAVING	usada em juncao comm o GROUP BY para filtrar resultados de um agrupamento
+    É usada em junção com o GROUP BY para filtrar resultados de um agrupamento
     
-    > ele é basicamente um WHERE para o GROUP BY
-    > 
-    
-    > WHERE É USADO ANTES DO DOS DADOS SEREM AGRUPADOS
-    > 
-    
-    ```sql
-    SELEC coluna1, funcaoAgregacao(coluna2)
-    FROM nomeTabela
-    GROUP BY coluna1
-    HAVING condicao
-    ```
+    - ele é basicamente um WHERE para o GROUP BY
+    - WHERE É USADO ANTES DO DOS DADOS SEREM AGRUPADOS
+        
+        ```sql
+        SELEC coluna1, funcaoAgregacao(coluna2)
+        FROM nomeTabela
+        GROUP BY coluna1
+        HAVING condicao
+        ```
+        
     
     ---
     
@@ -623,20 +600,17 @@
 ---
 
 - AS
-    
-    AS renomeia a coluna
-    
-    > É possível fazer a nomenclatura assim
-    > 
-    > 
-    > ```sql
-    > FROM Person.Person AS p
-    > ```
-    > 
-    > ```sql
-    > FROM Person.Person p
-    > ```
-    > 
+    - AS renomeia a coluna
+    - É possível fazer a nomenclatura assim
+        
+        ```sql
+        FROM Person.Person AS p
+        ```
+        
+        ```sql
+        FROM Person.Person p
+        ```
+        
     
     EXEMPLOS:
     
@@ -717,42 +691,42 @@
         
         - Exemplo de duas colunas
             1. Repare que ele mostrará separadamente
-            
-            ```sql
-            SELECT TOP 10 *
-            FROM PERSON.PERSON
-            
-            SELECT TOP 10 *
-            FROM person.EmailAddress
-            ```
-            
+                
+                ```sql
+                SELECT TOP 10 *
+                FROM PERSON.PERSON
+                
+                SELECT TOP 10 *
+                FROM person.EmailAddress
+                ```
+                
         
         ---
         
         - Exemplos
             - Juntando colunas específicas da tabela
-            
-            ```sql
-            SELECT p.businessEntityid, p.FirstName, p.LastName, pe.EmailAddress
-            FROM Person.Person AS p
-            INNER JOIN person.EmailAddress PE on p.BusinessEntityID = pe.BusinessEntityID
-            ```
-            
-            ```sql
-            SELECT pr.ListPrice, pr.Name, pc.name
-            FROM Production.Product pr
-            INNER JOIN Production.ProductSubcategory pc on pc.ProductSubcategoryID = pr.ProductSubcategoryID
-            ```
-            
+                
+                ```sql
+                SELECT p.businessEntityid, p.FirstName, p.LastName, pe.EmailAddress
+                FROM Person.Person AS p
+                INNER JOIN person.EmailAddress PE on p.BusinessEntityID = pe.BusinessEntityID
+                ```
+                
+                ```sql
+                SELECT pr.ListPrice, pr.Name, pc.name
+                FROM Production.Product pr
+                INNER JOIN Production.ProductSubcategory pc on pc.ProductSubcategoryID = pr.ProductSubcategoryID
+                ```
+                
             - Juntando tudo das tabelas
                 - ele junta todas as colunas q são iguais
-            
-            ```sql
-            SELECT TOP 10 *
-            FROM Person.BusinessEntityAddress ba
-            INNER JOIN Person.Address pa ON pa.AddressID = ba.AddressID
-            ```
-            
+                
+                ```sql
+                SELECT TOP 10 *
+                FROM Person.BusinessEntityAddress ba
+                INNER JOIN Person.Address pa ON pa.AddressID = ba.AddressID
+                ```
+                
         
         ---
         

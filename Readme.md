@@ -1,7 +1,5 @@
 # SQL
 
----
-
 - Ajuda
     
     *TODOS OS COMANDOS SQL NORMALMENTE ESTÃO EM MAIUSCULO*

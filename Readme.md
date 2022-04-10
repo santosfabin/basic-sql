@@ -91,7 +91,7 @@
     > 
     > <		menor
     > 
-    > >		maior
+    > '>		maior
     > 
     > =		maior ou igual
     > 

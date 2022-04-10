@@ -86,22 +86,22 @@
     
     WHERE trabalha com operadores de comparação
     
-    > =		igual
+    > ⠀=		igual
     > 
     > 
-    > <		menor
+    > ⠀<		menor
     > 
     > ⠀>		maior
     > 
-    > =		maior ou igual
+    > ⠀=		maior ou igual
     > 
-    > <=		menor ou igual
+    > ⠀<=		menor ou igual
     > 
-    > <>		diferente de
+    > ⠀<>		diferente de
     > 
-    > AND		operador logico E
+    > ⠀AND		operador logico E
     > 
-    > OR		operador logico OU
+    > ⠀OR		operador logico OU
     > 
     
     ---

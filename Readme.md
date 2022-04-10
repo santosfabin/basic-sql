@@ -1,51 +1,5 @@
 # SQL
 
-- X
-    
-    ```sql
-    SELECT COUNT(*)
-    FROM Production.Product
-    WHERE ListPrice > 1500
-    ```
-    
-    ```sql
-    SELECT COUNT(*)
-    FROM Person.Person
-    WHERE lastname LIKE 'p%'
-    ```
-    
-    ```sql
-    SELECT COUNT(DISTINCT (city))
-    FROM Person.Address
-    ```
-    
-    ```sql
-    SELECT DISTINCT (city)
-    FROM Person.Address
-    ```
-    
-    ```sql
-    SELECT COUNT(color)
-    FROM Production.Product
-    WHERE color IN('red') and ListPrice BETWEEN 500 AND 1000
-    ```
-    
-    ```sql
-    SELECT count (*)
-    FROM Production.Product
-    WHERE name LIKE '%road%'
-    ```
-    
-    ```sql
-    SELECT 19972 - 19118
-    ```
-    
-    <aside>
-    💡 F == important
-    
-    </aside>
-    
-
 ---
 
 - Ajuda
@@ -969,4 +923,48 @@
 
 ---
 
--
+- 
+- X
+    
+    ```sql
+    SELECT COUNT(*)
+    FROM Production.Product
+    WHERE ListPrice > 1500
+    ```
+    
+    ```sql
+    SELECT COUNT(*)
+    FROM Person.Person
+    WHERE lastname LIKE 'p%'
+    ```
+    
+    ```sql
+    SELECT COUNT(DISTINCT (city))
+    FROM Person.Address
+    ```
+    
+    ```sql
+    SELECT DISTINCT (city)
+    FROM Person.Address
+    ```
+    
+    ```sql
+    SELECT COUNT(color)
+    FROM Production.Product
+    WHERE color IN('red') and ListPrice BETWEEN 500 AND 1000
+    ```
+    
+    ```sql
+    SELECT count (*)
+    FROM Production.Product
+    WHERE name LIKE '%road%'
+    ```
+    
+    ```sql
+    SELECT 19972 - 19118
+    ```
+    
+    <aside>
+    💡 F == important
+    
+    </aside>

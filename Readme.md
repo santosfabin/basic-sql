@@ -200,6 +200,212 @@
 
 ---
 
+- INSERT INTO
+    - Sintaxe1
+        
+        ```sql
+        INSERT INTO nomeTabela(coluna1, coluna2)
+        VALUES(valor1, valor2)
+        VALUES(valor1, valor2)
+        VALUES(valor1, valor2)
+        ```
+        
+    - Exemplos
+        - Criando
+            
+            ```sql
+            CREATE TABLE aula(
+            	id INT PRIMARY KEY,
+            	nome VARCHAR(200)
+            );
+            ```
+            
+        - Inserindo uma linha de valores
+            
+            ```sql
+            INSERT INTO aula (id,nome)
+            VALUES (1, 'aula1')
+            SELECT *
+            FROM aula
+            ```
+            
+        - Inserindo várias linha de valores
+            
+            ```sql
+            INSERT INTO aula (id, nome)
+            VALUES
+            (2, 'aula 2'),
+            (3, 'aula 3'),
+            (4, 'aula 4');
+            
+            SELECT * FROM aula
+            ```
+            
+    
+    ---
+    
+    - Sintaxe2
+        - Inserir uma coluna de uma tabela pra outra
+        
+        ```sql
+        INSERT INTO tabelaA (coluna1)
+        SELECT coluna2
+        FROM tabelaB
+        ```
+        
+    - Exemplos da Sintaxe2
+        - Criando rapidamente
+            
+            ```sql
+            SELECT * INTO tabelanova FROM aula
+            
+            SELECT * FROM tabelanova
+            ```
+            
+    
+    ---
+    
+    - Exemplo completo
+    
+    ```sql
+    CREATE TABLE exemplo1
+    (
+    	coluna1 VARCHAR(10) NOT NULL,
+    	coluna2 INT DEFAULT 0
+    );
+    --
+    INSERT INTO exemplo1 (coluna1, coluna2)
+    VALUES('1', 1)
+    --
+    SELECT *
+    FROM exemplo1
+    --
+    INSERT INTO exemplo1 (coluna1, coluna2)
+    VALUES
+    ('2',2),
+    ('3',3),
+    ('4',4);
+    --
+    CREATE TABLE exemplo2
+    (
+    	coluna1 VARCHAR(10) NOT NULL,
+    	coluna2 INT DEFAULT 0
+    );
+    INSERT INTO exemplo2 (coluna1, coluna2)
+    VALUES
+    ('1',1)
+    --
+    SELECT *
+    FROM exemplo2
+    --
+    INSERT INTO exemplo2 (coluna1)
+    SELECT coluna1
+    FROM exemplo1
+    
+    SELECT *
+    FROM exemplo2
+    ```
+    
+
+---
+
+- UPDATE
+    - Sintaxe
+        
+        ```sql
+        UPDATE nomeTabela
+        SET coluna1 = valor1
+        		coluna2 = valor2
+        WHERE condicao
+        ```
+        
+        <aside>
+        ❗ é importante o WHERE pois sem ele o comando irá mudar TODO o banco de dados
+        
+        </aside>
+        
+    
+    ---
+    
+    - Exemplo
+        - Tabela
+            
+            ```sql
+            CREATE TABLE aula(
+            	id INT PRIMARY KEY,
+            	nome VARCHAR(150) NOT NULL
+            );
+            
+            INSERT INTO aula(id, nome)
+            VALUES
+            (1,'aula 1'),
+            (2,'aula 2'),
+            (3,'aula 3'),
+            (4,'aula 4');
+            
+            SELECT * FROM aula
+            ```
+            
+        
+        ---
+        
+        - Execução SEM o WHERE
+            
+            ```sql
+            UPDATE aula
+            SET nome = 'teste'
+            ```
+            
+        
+        ---
+        
+        - Execução COM o WHERE
+            
+            ```sql
+            UPDATE aula
+            SET NOME = 'mudar'
+            WHERE id = 3
+            ```
+            
+            ```sql
+            UPDATE aula
+            SET nome = 'par'
+            WHERE id % 2 = 0
+            ```
+            
+
+---
+
+- DELETE
+    
+    <aside>
+    ❗ **É importante também colocar uma condição para o DELETE**
+    
+    - caso contrário ele irá apagar $***TUDO***$ que esta na tabela
+    </aside>
+    
+    - Sintaxe
+        
+        ```sql
+        DELETE FROM nomeTabela
+        WHERE condicao
+        ```
+        
+    
+    ---
+    
+    - Exemplo
+        
+        ```sql
+        DELETE FROM aula
+        WHERE nome <> 'par'
+        
+        SELECT * FROM AULA
+        ```
+        
+
+---
+
 - Select/FROM
     
     ```sql
@@ -321,6 +527,38 @@
     FROM person.EmailAddress
     WHERE BusinessEntityID = 26
     ```
+    
+
+---
+
+- IN
+    
+    É usado junto com o WHERE
+    
+    - verifica se um valor corresponde com qualquer valor passado na lista de valores
+    - ele é como o between, porem so nos valores escritos, o between é todos os valores dentro dos escolhidos
+    - ele tbm é mais rápido
+    
+    ---
+    
+    EXEMPLOS:
+    
+    - valor IN(valor1,valor2)
+    color IN('blue','black')
+    valor IN (SELECT valor FROM NomeDaTabela)
+        
+        ```sql
+        SELECT *
+        FROM Person.Person
+        WHERE BusinessEntityID IN(2,7,13)
+        ```
+        
+        ```sql
+        SELECT *
+        FROM Person.Person
+        WHERE BusinessEntityID NOT IN(2,7,13)
+        ```
+        
     
 
 ---
@@ -489,38 +727,6 @@
         WHERE HireDate BETWEEN '2009/01/01' and '2010/01/01'
         ```
         
-
----
-
-- IN
-    
-    É usado junto com o WHERE
-    
-    - verifica se um valor corresponde com qualquer valor passado na lista de valores
-    - ele é como o between, porem so nos valores escritos, o between é todos os valores dentro dos escolhidos
-    - ele tbm é mais rápido
-    
-    ---
-    
-    EXEMPLOS:
-    
-    - valor IN(valor1,valor2)
-    color IN('blue','black')
-    valor IN (SELECT valor FROM NomeDaTabela)
-        
-        ```sql
-        SELECT *
-        FROM Person.Person
-        WHERE BusinessEntityID IN(2,7,13)
-        ```
-        
-        ```sql
-        SELECT *
-        FROM Person.Person
-        WHERE BusinessEntityID NOT IN(2,7,13)
-        ```
-        
-    
 
 ---
 
@@ -1184,7 +1390,6 @@
             WHERE a.Discount = b.Discount
             ```
             
-    
 
 ---
 
@@ -1680,4 +1885,6 @@
         1. [https://www.youtube.com/watch?v=rX2I7OjLqWE](https://www.youtube.com/watch?v=rX2I7OjLqWE)
             1. [https://drive.google.com/file/d/1LCofjYj-pV1asBLrxtgPDsbqMFRefHW5/view](https://drive.google.com/file/d/1LCofjYj-pV1asBLrxtgPDsbqMFRefHW5/view)
             2. [https://raw.githubusercontent.com/Microsoft/sql-server-samples/master/samples/databases/northwind-pubs/instnwnd.sql](https://raw.githubusercontent.com/Microsoft/sql-server-samples/master/samples/databases/northwind-pubs/instnwnd.sql)
-        2. [https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15)
+        2. Microsoft
+            1. [https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15)
+            2. [https://docs.microsoft.com/pt-br/sql/t-sql/data-types/numeric-types?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/data-types/numeric-types?view=sql-server-ver15)

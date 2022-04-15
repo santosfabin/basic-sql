@@ -12,6 +12,16 @@
     
     CTRL + SHIFT + U == UPPERCASE
     
+    CRUD
+    
+    C - CREATE
+    
+    R - READ
+    
+    U - UPDATE
+    
+    D - DELETE
+    
 
 ---
 
@@ -35,6 +45,158 @@
     CLICK nos "..." ao lado direito
     "add"
     
+
+---
+
+- Tipos de dados
+    1. Boleanos
+        1. De início ele é iniciado como NULO, e pode receber o valor 1, 0 ou NULO
+        2. Quando você for iniciar o valor boleano, ele normalmente vai ser do tipo BIT
+    2. Caractere
+        1. Quando você for iniciar o valor caractere, ele normalmente vai ser do tipo CHAR, VARCHAR ou NVARCHAR
+            1. CHAR = ele tem uma quantidade FIXA de caracteres, ocupando todo o espaço desejado (memório)
+            2. VARCHAR ou NVARCHAR= ele permite inserir até a quantidade que foi definida, e ele so vai ocupar o espaço preenchido
+    3. Números
+        - Inteiros
+            
+            
+            | TINYINT | 0 a 255 | 1 byte |
+            | --- | --- | --- |
+            | SMALLINT | 2^15 (-32.768) a 2^15-1 (32.767) | 2 bytes |
+            | INT | 2^31 (-2.147.483.648) a 2^31-1 (2.147.483.647) | 4 bytes |
+            | BIGINT | 2^63 (-9.223.372.036.854.775.808) a 2^63-1 (9.223.372.036.854.775.807) | 8 bytes |
+        - Valores aproximados
+            
+            
+            | float | - 1,79E+308 a -2,23E-308, 0 e 2,23E-308 a 1,79E+308 | Depende do valor de n |
+            | --- | --- | --- |
+            | real | - 3,40E + 38 a -1,18E - 38, 0 e 1,18E - 38 a 3,40E + 38 | 4 bytes |
+    4. Temporais
+        
+        
+        | DATE | aaaa/mm/dd |
+        | --- | --- |
+        | DATETIME | aaaa/mm/dd:hh:mm:ss |
+        | DATETIME2 | aaaa/mm/dd:hh:mm:sssssss |
+        | SMALLDATETIME | ‘1900-01-01:00:00:00’ até ‘2079-06-06:23:59:59’ |
+        | TIME | ‘00:00:00.0000000' até ‘23:59:59.9999999’ |
+        | DATETIMEODSET | data e hora com fuso horário |
+
+---
+
+- CREATE
+    - CREATE DATABESE
+        - É usado para criar uma DATABASE
+            - como se fosse uma pasta para suas tabelas
+        - Então é dentro da DATABESE que ficará todas as informações e tabelas
+        - Sintaxe
+            
+            ```sql
+            CREATE DATABASE nome_da_db
+            GO
+            ```
+            
+    
+    ---
+    
+    - CREATE TABLE
+        - Ela criará a tabela para guardar as informações
+        - Sintaxe
+            
+            ```sql
+            CREATE TABLE nome tabela(
+            	coluna1 tipo restricaoDaColuna,
+            	coluna2 tipo,
+            	coluna3 tipo,
+            	...
+            )
+            GO
+            ```
+            
+    
+    ---
+    
+    - Restrições
+        
+        
+        | NOT NULL | não permite valores nulos |
+        | --- | --- |
+        | UNIQUE | força TODOS os valores em uma coluna serem diferentes |
+        | AUTO_INCREMENT | força TODOS os valores em uma coluna serem diferentes |
+        | PRIMARY KEY | uma junção de NOT NULL e UNIQUE |
+        | FOREIGN KEY | identifica unicamente uma linha em outra tabela |
+        | CHECK | força uma condição específica em uma coluna |
+        | DEFAULT | força um valor padrão quando nenhum valor é passado |
+    
+    ---
+    
+    - Exemplo
+        
+        ```sql
+        CREATE DATABASE tbYoutube
+        GO
+        
+        CREATE TABLE tbcanal (
+        	canalid INT PRIMARY KEY,
+        	nome VARCHAR(150) NOT NULL,
+        	contagemInscritos INT DEFAULT 0,
+        	dataCriacao DATETIME NOT NULL
+        );
+        
+        CREATE TABLE tbvideo(
+        	videoid INT PRIMARY KEY,
+        	nome VARCHAR(150) NOT NULL,
+        	vizualizacoes INT DEFAULT 0,
+        	likes INT DEFAULT 0,
+        	deslikes INT DEFAULT 0,
+        	duracao INT NOT NULL,
+        	canalid INT FOREIGN KEY REFERENCES tbCANAL(canalid)
+        );
+        
+        SELECT *
+        FROM tbcanal
+        
+        SELECT *
+        FROM tbvideo
+        ```
+        
+
+---
+
+- PRIMARY KEY
+    - PRIMARY KEY = chave primária
+        - ou PK
+    - Ela é um elemento em uma tabela que é usada para identificar uma única linha da tabela
+        - ou seja, na tabela de PRIMARY KEY não haverá itens repetidos
+        - e ela é chamada de tabela pai
+    - Sintaxe
+        
+        ```sql
+        nome_coluna tipo_de_dados PRIMARY KEY
+        ```
+        
+
+---
+
+- FOREIGN KEY
+    - FOREIGN KEY = chave estrangeira
+        - ou FK
+    - É uma coluna na tabela que identifica uma única  linha de OUTRA tabela
+        - ou seja, ela não contém os dados, mas ela se torna uma referência para os dados
+    - Assim ela é uma PRIMARY KEY (chave primária) para outras tabelas
+        - e ela é chamada de tabela referenciadora ou de tabela filho
+    - Sintaxe
+        
+        ```sql
+        coluna_pk INT FOREIGN KEY REFERENCES tabela(coluna_pk)
+        --primeiro é setado o MESMO nome da PRIMARY KEY da outra tabela
+        --setado o para INTEIRO
+        --é setado que ela é uma FOREIGN KEY (chave estrangeira)
+        --mostra que é referenciado ah uma tabela
+        --nome da tabela referenciada
+        --(nome da coluna da PRIMARY KEY) que será sendo referenciada como FOREIGN KEY
+        ```
+        
 
 ---
 
@@ -84,7 +246,7 @@
 
 - WHERE
     
-    WHERE trabalha com operadores de comparação
+    Trabalha com operadores de comparação
     
     > *⠀*=		igual
     > 
@@ -417,54 +579,132 @@
 
 ---
 
-- MIN/MAX/SUM/AVG
-    
-    São funções de agregação, basicamente agregam ou combinam dados de uma tabela em 1 resultado so
-    
-    | AS |
-    | --- |
-    | renomeia a tabela final para nome |
-    
-    | SUM |
-    | --- |
-    | soma de tudo naquela coluna |
-    
-    | MIN |
-    | --- |
-    | o valor MINIMO naquela coluna |
-    
-    | MAX |
-    | --- |
-    | o valor MAXIMO naquela coluna |
-    
-    | AVG |
-    | --- |
-    | a MEDIA dos valores naquela coluna |
+- Operações matemáticas
+    - ROUND
+        - Ele arredonda o valor
+        - Sintaxe
+            - ROUND(tabela, coluna, precisão decimal)
+        - Utilização
+            - ROUND(LineTotal, 2, 2)
+        - Exemplo:
+            
+            ```jsx
+            SELECT ROUND(linetotal, 2), ROUND(linetotal, 2, 2), linetotal
+            FROM Sales.SalesOrderDetail
+            ```
+            
     
     ---
     
-    EXEMPLOS:
+    - SQRT
+        - == Raiz quadrada
+        - Exemplo:
+            
+            ```jsx
+            SELECT SQRT(linetotal)
+            FROM Sales.SalesOrderDetail
+            ```
+            
     
-    ```sql
-    SELECT TOP 10 SUM(linetotal) AS "SOMA"
-    FROM Sales.SalesOrderDetail
-    ```
+    ---
     
-    ```sql
-    SELECT MIN(linetotal) AS "MINIMO"
-    FROM sales.SalesOrderDetail
-    ```
+    - MIN/MAX/SUM/AVG
+        
+        São funções de agregação, basicamente agregam ou combinam dados de uma tabela em 1 resultado so
+        
+        | AS |
+        | --- |
+        | renomeia a tabela final para nome |
+        
+        | SUM |
+        | --- |
+        | soma de tudo naquela coluna |
+        
+        | MIN |
+        | --- |
+        | o valor MINIMO naquela coluna |
+        
+        | MAX |
+        | --- |
+        | o valor MAXIMO naquela coluna |
+        
+        | AVG |
+        | --- |
+        | a MEDIA dos valores naquela coluna |
+        
+        ---
+        
+        EXEMPLOS:
+        
+        ```sql
+        SELECT TOP 10 SUM(linetotal) AS "SOMA"
+        FROM Sales.SalesOrderDetail
+        ```
+        
+        ```sql
+        SELECT MIN(linetotal) AS "MINIMO"
+        FROM sales.SalesOrderDetail
+        ```
+        
+        ```sql
+        SELECT MAX(linetotal) AS "MAXIMO"
+        FROM sales.SalesOrderDetail
+        ```
+        
+        ```sql
+        SELECT AVG(linetotal) AS "MEDIA"
+        FROM sales.SalesOrderDetail
+        ```
+        
     
-    ```sql
-    SELECT MAX(linetotal) AS "MAXIMO"
-    FROM sales.SalesOrderDetail
-    ```
+    ---
     
-    ```sql
-    SELECT AVG(linetotal) AS "MEDIA"
-    FROM sales.SalesOrderDetail
-    ```
-    
+    - Resumo
+        
+        
+        | AVG() |
+        | --- |
+        | = Retorna o valor médio de uma coluna específica |
+        
+        | BINARY_CHECKSUM() |
+        | --- |
+        | = O valor do BINARY_CHECKSUM computado sobre uma linha ou uma tabela ou sobre uma lista de expressões. BINARY CHECKSUM é usada para detectar alterações em uma linha ou uma tabela. |
+        
+        | CHECKSUM() |
+        | --- |
+        | = O valor de CHECKSUM computado sobre uma linha ou uma tabela, ou sobre uma lista de expressões. CHECKSUM é usada para construir índices de hash. |
+        
+        | CHECKSUM_AGG() |
+        | --- |
+        | = O valor de CHECKSUM de um grupo. Valores nulos são ignorados. |
+        
+        | COUNT() |
+        | --- |
+        | = Retorna o número de linhas |
+        
+        | COUNT_BIG() |
+        | --- |
+        | = igual ao COUNT mas o COUNT_BIG sempre retorna um tipo de dados bigint. |
+        
+        | COUNT() |
+        | --- |
+        | = Retorna o número de linhas |
+        
+        | STDEV() |
+        | --- |
+        | = Desvio padrão de todos os valores |
+        
+        | STDEVP() |
+        | --- |
+        | = Desvio padrão da população |
+        
+        | VAR() |
+        | --- |
+        | = Variância estatistica de todos os valores |
+        
+        | VARP() |
+        | --- |
+        | = Variância estatística de todos os valores da população |
 
 ---
 
@@ -908,6 +1148,43 @@
             > | NULL | NULL | 1 | Jonas |
             > | 1 | Pedro | 2 | Pedro |
             > | 3 | Mario | 3 | Mario |
+    
+    ---
+    
+    - SELF JOIN
+        - Sintaxe
+            
+            ```sql
+            SELECT nome_coluna
+            FROM tabelaA, tabelaB
+            WHERE condicao
+            ```
+            
+        - Exemplo
+            
+            ```sql
+            SELECT a.ContactName, a.Region, b.ContactName, b.Region
+            FROM Customers a, Customers b
+            WHERE a.Region = b.region
+            ```
+            
+        - Exemplo
+            
+            ```sql
+            SELECT a.firstname, a.hiredate, b.firstname, b.hiredate
+            FROM Employees a, Employees b
+            WHERE DATEPART(year, a.hiredate) = DATEPART(year, b.hiredate)
+            ```
+            
+        - Exemplo
+            
+            ```sql
+            SELECT a.ProductID, a.Discount, b.ProductID, b.Discount
+            FROM [Order Details] a, [Order Details] b
+            WHERE a.Discount = b.Discount
+            ```
+            
+    
 
 ---
 
@@ -1189,6 +1466,170 @@
         [https://docs.microsoft.com/pt-br/sql/t-sql/functions/string-functions-transact-sql?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/functions/string-functions-transact-sql?view=sql-server-ver15)
         
     
+    ---
+    
+    - CONCAT
+        - Ele vai juntar as String, os atribulos da tabelas
+            - ele não juntará SEM ESPAÇOS
+        - Exemplo SEM ESPAÇO:
+            
+            ```jsx
+            SELECT CONCAT(FirstName, LastName)
+            FROM Person.Person
+            ```
+            
+        - Exemplo COM ESPAÇO:
+            
+            ```jsx
+            SELECT CONCAT(FirstName,' ', LastName)
+            FROM Person.Person
+            ```
+            
+    
+    ---
+    
+    - UPPER
+        - Ele irá deixar todas as Strings maiúsculas
+        - Exemplo:
+            
+            ```jsx
+            SELECT UPPER(firstname)
+            FROM Person.Person
+            ```
+            
+    
+    ---
+    
+    - LOWER
+        - Ele irá deixar todas as Strings minúsculas
+        - Exemplo:
+            
+            ```jsx
+            SELECT LOWER(firstname)
+            FROM Person.Person
+            ```
+            
+    
+    ---
+    
+    - LEN
+        - Ele mostrará o tamanho da palavra
+        - Exemplo:
+            
+            ```jsx
+            SELECT firstname, LEN(firstname) Quantidade
+            FROM Person.Person
+            ORDER BY firstname
+            ```
+            
+    
+    ---
+    
+    - SUBSTRING
+        - Sintaxe
+            - SUBSTRING(tabela, inicio, fim)
+        - Utilização
+            - SUBSTRING(firstname, 1, 3)
+        - Exemplo:
+            
+            ```jsx
+            SELECT firstname, SUBSTRING(firstname, 1, 3)
+            FROM Person.Person
+            ```
+            
+    
+    ---
+    
+    - REPLACE
+        - Ele substitui
+        - Seintaxe
+            - REPLACE(tabela, item que vai ser substituido, item final)
+        - Exemplo:
+            
+            ```jsx
+            SELECT ProductNumber, REPLACE(productnumber, '-', '#')
+            FROM Production.Product
+            ```
+            
+    
+    ---
+    
+    > Exemplo Geral
+    > 
+    > 
+    > ```sql
+    > SELECT CONCAT(UPPER(firstname), ' ', SUBSTRING(LOWER(LastName),1,2),'.'), LEN(CONCAT(UPPER(firstname), ' ', LOWER(LastName))) qtd_letras
+    > FROM Person.Person
+    > ```
+    > 
+
+---
+
+- Sub SELECT
+    
+    > Exemplo 1:
+    > 
+    > - Exemplo SEM ele:
+    >     
+    >     ```sql
+    >     SELECT *
+    >     FROM Production.Product
+    >     
+    >     SELECT AVG(listprice)
+    >     FROM Production.Product
+    >     
+    >     SELECT *
+    >     FROM Production.Product
+    >     WHERE ListPrice > 438.6662
+    >     ```
+    >     
+    > - Exemplo COM ele:
+    >     
+    >     ```sql
+    >     SELECT *
+    >     FROM Production.Product
+    >     WHERE ListPrice > (SELECT AVG(listprice) FROM Production.Product)
+    >     ```
+    >     
+    
+    > Exemplo 2:
+    > 
+    > - Exemplo SEM ele:
+    >     
+    >     ```sql
+    >     SELECT *
+    >     FROM person.person
+    >     WHERE businessentityid IN (5, 6, 15)
+    >     
+    >     SELECT *
+    >     FROM humanresources.employee
+    >     WHERE jobtitle = 'Design Engineer'
+    >     ```
+    >     
+    > - Exemplo COM ele:
+    >     
+    >     ```sql
+    >     SELECT firstname
+    >     FROM Person.Person
+    >     WHERE BusinessEntityID IN(
+    >     SELECT BusinessEntityID
+    >     FROM HumanResources.Employee
+    >     WHERE JobTitle = 'Design engineer')
+    >     ```
+    >     
+    
+    > Exemplo 3:
+    > 
+    > 
+    > ```sql
+    > SELECT *
+    > FROM Person.Address pa
+    > WHERE StateProvinceID IN(
+    > SELECT StateProvinceID 
+    > FROM Person.StateProvince
+    > WHERE name = 'alberta')
+    > ```
+    > 
 
 ---
 

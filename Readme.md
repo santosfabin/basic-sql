@@ -163,6 +163,39 @@
 
 ---
 
+- NOT NULL
+    - Sintaxe
+        
+        ```sql
+        CREATE TABLE carteiraMotorista(
+        	id INT NOT NULL
+        	nome VARCHAR(255) NOT NULL,
+        	idade INT CHECK (idade >= 18)
+        );
+        ```
+        
+    - Então ele é uma restrição para a entrada de dados
+        - e caso mande o dado SEM preencher, ele retornará um erro
+
+---
+
+- UNIQUE
+    - Ela é uma forma de restrição
+        - ou seja, ela restringe a entrada de dados de uma forma que nenhum outro dado seja igual ao outro
+    - Sintaxe
+        
+        ```sql
+        CREATE TABLE carteiramotorista(
+        	id INT NOT NULL,
+        	nome VARCHAR(200),
+        	idade INT CHECK (idade >=18),
+        	codigocnh INT NOT NULL UNIQUE
+        );
+        ```
+        
+
+---
+
 - PRIMARY KEY
     - PRIMARY KEY = chave primária
         - ou PK
@@ -376,12 +409,79 @@
 
 ---
 
+- ALTER TABLE
+    - Sintaxe
+        
+        ```sql
+        ALTER TABLE nomeTabela
+        acao/condicoes
+        ```
+        
+    
+    ---
+    
+    - Exemplos do que se pode fazer
+        1. Add, remover ou alterar uma coluna
+        2. Setar valores padrões para uma coluna
+        3. Add ou remover restrições de colunas
+        4. Renomear uma tabela
+    
+    ---
+    
+    - Exemplos
+        - Tabela
+            
+            ```sql
+            CREATE TABLE youtube
+            (
+            id INT PRIMARY KEY,
+            nome VARCHAR(150) NOT NULL UNIQUE,
+            categoria VARCHAR(200) NOT NULL,
+            datacriacao DATETIME NOT NULL
+            );
+            ```
+            
+        - Adicionado uma tabela
+            
+            ```sql
+            ALTER TABLE youtube
+            add ativo bit
+            
+            SELECT * FROM youtube
+            ```
+            
+        - Alterando uma coluna
+            
+            ```sql
+            ALTER TABLE youtube
+            ALTER COLUMN categoria VARCHAR(300) NOT NULL
+            ```
+            
+
+---
+
+- CHECK CONSTRAINT
+    - Sintaxe
+        
+        ```sql
+        CREATE TABLE carteiraMotorista(
+        	id INT NOT NULL
+        	nome VARCHAR(255) NOT NULL,
+        	idade INT CHECK ( idade >= 18 )
+        );
+        ```
+        
+    - Então ele é uma restrição para a entrada de dados
+        - e caso mande o dado para preencher, ele retornará um erro
+
+---
+
 - DELETE
     
     <aside>
     ❗ **É importante também colocar uma condição para o DELETE**
     
-    - caso contrário ele irá apagar $***TUDO***$ que esta na tabela
+    - caso contrário ele irá apagar $***TUDO***$ que está na tabela
     </aside>
     
     - Sintaxe
@@ -403,35 +503,139 @@
         SELECT * FROM AULA
         ```
         
+    
+    ---
+    
+    - Para renomear no SQL-SERVER é um comando específico
+        - EXEC
+            - Sintaxe
+                
+                ```sql
+                EXEC sp_RENAME 'nomeTabela.nomeColuna', 'nomeColunaNova', 'tipo'
+                ```
+                
+            - Exemplos
+                - Alterando o nome de uma coluna
+                    
+                    ```sql
+                    EXEC SP_RENAME 'youtube.nome', 'nomeCanal', 'COLUMN'
+                    ```
+                    
+                - Alterando o nome da tabela
+                    
+                    ```sql
+                    EXEC SP_RENAME 'youtube', 'youtube2'
+                    ```
+                    
+
+---
+
+- DROP
+    - Sintaxe
+        
+        ```sql
+        DROP TIPO nomeTabela
+        ```
+        
+    
+    ---
+    
+    - Excluir TABLE
+        - ela provavelmente só será excluída se não tiver sendo referenciada
+        
+        ```sql
+        DROP TABLE nomeTabela
+        ```
+        
+    
+    ---
+    
+    - Excluir DATABASE
+        - é necessário que DATABASE não esteja em uso
+        
+        ```sql
+        DROP DATABASE nomeDataBase
+        ```
+        
+    
+    ---
+    
+    - Excluir o conteúdo dentro da tabela
+        - TRUNCATE
+            
+            ```sql
+            TRUNCATE TABLE aula
+            ```
+            
+    
+    ---
+    
+    - Exemplo geral
+        
+        ```sql
+        CREATE TABLE apagar1
+        (
+        	id INT PRIMARY KEY,
+        	nome VARCHAR(10)
+        );
+        
+        CREATE TABLE apagar2
+        (
+        	id INT PRIMARY KEY,
+        	nome VARCHAR(10)
+        );
+        DROP TABLE apagar1
+        DROP TABLE apagar2
+        
+        SELECT * FROM apagar1
+        SELECT * FROM apagar2
+        ```
+        
+
+---
+
+- VIEWS
+    - Sintaxe
+        
+        ```sql
+        CREATE VIEW [pessoas simplificado] AS 
+        SELECT firstname, middlename, lastname
+        FROM person.person
+        WHERE title = 'ms.'
+        ```
+        
+    - Ela criará uma tabela com as condições requeridas, simplificando sua busca
 
 ---
 
 - Select/FROM
+    - SELECT faz a seleção das colunas
+    - FROM seleciona a DATABASE
+    
+    VAI SELECIONAR TUDO
     
     ```sql
     SELECT *
     ```
     
-    VAI SELECIONAR TUDO
+    VAI SELECIONAR APENAS na coluna
     
     ```sql
     SELECT coluna1
     ```
     
-    VAI SELECIONAR APENAS na coluna
+    VAI SELECIONAR APENAS na coluna1 e coluna2
     
     ```sql
     SELECT coluna,coluna2
     ```
     
-    VAI SELECIONAR APENAS na coluna1 e coluna2
+    VAI PEGAR DA TABELA person.Person
     
     ```sql
     SELECT DISTINCT coluna1,coluna2
     FROM person.Person
     ```
-    
-    VAI PEGAR DA TABELA person.Person
     
     ---
     
@@ -454,23 +658,18 @@
     
     Trabalha com operadores de comparação
     
-    > *⠀*=		igual
-    > 
-    > 
-    > *⠀*<		menor
-    > 
-    > *⠀*>		maior
-    > 
-    > *⠀*=		maior ou igual
-    > 
-    > *⠀*<=		menor ou igual
-    > 
-    > *⠀*<>		diferente de
-    > 
-    > *⠀*AND		operador logico E
-    > 
-    > *⠀*OR		operador logico OU
-    > 
+    | =
+     | igual |
+    | --- | --- |
+    | <
+     | menor |
+    | >
+     | maior |
+    | >= | maior ou igual |
+    | <= | menor ou igual |
+    | <> | diferente de |
+    | AND | operador logico E |
+    | OR | operador logico OU |
     
     ---
     
@@ -594,25 +793,26 @@
     EXERCICIOS:
     
     - 1
-    
-    ```sql
-    SELECT COUNT(name)
-    FROM Production.Product
-    ```
-    
+        
+        ```sql
+        SELECT COUNT(name)
+        FROM Production.Product
+        ```
+        
     - 2
-    
-    ```sql
-    SELECT COUNT(size)
-    FROM Production.Product
-    ```
-    
+        
+        ```sql
+        SELECT COUNT(size)
+        FROM Production.Product
+        ```
+        
     - 3
-    
-    ```sql
-    SELECT COUNT(DISTINCT size)
-    FROM Production.Product
-    ```
+        
+        ```sql
+        SELECT COUNT(DISTINCT size)
+        FROM Production.Product
+        ```
+        
     
 
 ---

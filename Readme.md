@@ -122,7 +122,11 @@
         | NOT NULL | não permite valores nulos |
         | --- | --- |
         | UNIQUE | força TODOS os valores em uma coluna serem diferentes |
-        | AUTO_INCREMENT | força TODOS os valores em uma coluna serem diferentes |
+        | AUTO_INCREMENT | faz todos os próximos valores serem diferentes e em sequência
+        (MySQL) |
+        | IDENTITY(1,1) | faz todos os próximos valores serem diferentes e em sequência
+        (valor inicial, quanto vai aumentar)
+        (T-SQL/SQL Server) |
         | PRIMARY KEY | uma junção de NOT NULL e UNIQUE |
         | FOREIGN KEY | identifica unicamente uma linha em outra tabela |
         | CHECK | força uma condição específica em uma coluna |
@@ -190,6 +194,43 @@
         	nome VARCHAR(200),
         	idade INT CHECK (idade >=18),
         	codigocnh INT NOT NULL UNIQUE
+        );
+        ```
+        
+
+---
+
+- IDENTITY(1, 1)
+    - Ele criará uma sequência de um valor inicial, e aumentará de tantos em tantos
+        - ou seja, ela vai incrementar automaticamente, sem precisar setar um valor para ele
+    - Sintaxe
+        
+        ```sql
+        CREATE TABLE pessoa(
+            id INT IDENTITY(1,1) PRIMARY KEY,
+        );
+        ```
+        
+    - É importante utilizar
+        
+        ```php
+        SET IDENTITY_INSERT nomeTabela ON;
+        ```
+        
+        - Ela ativa a função para atribuir automaticamente a primary key
+
+---
+
+- AUTO_INCREMENT
+    - Ele criará uma sequência de um valor inicial 1 e aumentará de 1 em 1
+        - ou seja, não é necessário setar um valor para ele
+    - Sintaxe
+        
+        ```sql
+        CREATE TABLE pessoa(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            NOME varchar(255) NOT NULL,
+            IDADE int NOT NULL
         );
         ```
         
@@ -1294,13 +1335,13 @@
 
 - JOINS
     
-    ![Untitled](SQL%2068edc/Untitled.png)
+    ![Untitled](SQL%2068edc743329443aab617800a1c2a61f5/Untitled.png)
     
     - INNER JOIN
         - Retorna APENAS os resultados que CORRESPONDEM tanto na tabela A quanto na tabela B
             - É a intersecção entre as duas tabelas
                 
-                ![Untitled](SQL%2068edc/Untitled%201.png)
+                ![Untitled](SQL%2068edc743329443aab617800a1c2a61f5/Untitled%201.png)
                 
             
             > EXEMPLO:
@@ -1406,7 +1447,7 @@
         - Caso não houver valores IGUAIS ele irá preencher com null
         - É a união entre as duas tabelas
             
-            ![Untitled](SQL%2068edc/Untitled%202.png)
+            ![Untitled](SQL%2068edc743329443aab617800a1c2a61f5/Untitled%202.png)
             
             > EXEMPLO:
             > 
@@ -1450,7 +1491,7 @@
         - Quando não houver registros correspondentes ele preencherá com null
         - Isso equivale a tabelaA \ tabelaB ou tabelaA - tabelaB
             
-            ![Untitled](SQL%2068edc/Untitled%203.png)
+            ![Untitled](SQL%2068edc743329443aab617800a1c2a61f5/Untitled%203.png)
             
             > EXEMPLO:
             > 
@@ -1522,7 +1563,7 @@
         - Quando não houver registros correspondentes ele preencherá com null
         - Isso equivale a tabelaB \ tabelaA ou tabelaB - tabelaA
             
-            ![Untitled](SQL%2068edc/Untitled%204.png)
+            ![Untitled](SQL%2068edc743329443aab617800a1c2a61f5/Untitled%204.png)
             
             > EXEMPLO:
             > 
@@ -2088,3 +2129,5 @@
         2. Microsoft
             1. [https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/functions/datepart-transact-sql?view=sql-server-ver15)
             2. [https://docs.microsoft.com/pt-br/sql/t-sql/data-types/numeric-types?view=sql-server-ver15](https://docs.microsoft.com/pt-br/sql/t-sql/data-types/numeric-types?view=sql-server-ver15)
+
+[https://www.notion.so](https://www.notion.so)
